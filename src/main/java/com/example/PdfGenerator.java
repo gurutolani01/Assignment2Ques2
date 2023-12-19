@@ -96,8 +96,8 @@ public class PdfGenerator {
 
 
             // Add content to the PDF
-            document.add(itextImage);
-            document.add(itextImage2);
+//            document.add(itextImage);
+//            document.add(itextImage2);
             document.add(itextImage6);
             document.add(itextImage7);
             document.add(itextImage3);

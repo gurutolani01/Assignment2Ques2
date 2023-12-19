@@ -9,23 +9,19 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.jfree.chart.JFreeChart;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.apache.poi.*;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
-import static java.util.Calendar.DATE;
 import static java.util.Calendar.getInstance;
 import java.sql.*;
 
 @SpringBootApplication
-public class Part2Application {
+public class Main {
     private static final String URL = "jdbc:mysql://localhost:3306/assignment2";
     private static final String USER = "root";
     private static final String PASSWORD = "Acc0@user";
@@ -134,9 +130,9 @@ public class Part2Application {
         }
         switch (cell.getCellType()) {
             case STRING:
-                return cell.getStringCellValue();
+                return cell.getStringCellValue().toUpperCase();
             case NUMERIC:
-                return String.valueOf(cell.getNumericCellValue());
+                return String.valueOf(cell.getNumericCellValue()).toUpperCase();
             default:
                 return null;
         }
@@ -144,18 +140,13 @@ public class Part2Application {
 
     public static void main(String[] args) throws SQLException, IOException {
         try {
-            SpringApplication.run(Part2Application.class, args);
+            SpringApplication.run(Main.class, args);
 
             String filePath = "C:\\Users\\gurudas.tolani\\IdeaProjects\\Sol2\\src\\main\\resources\\Accolite.xlsx";
             List<ExcelData> dataList = parseExcel(filePath);
 
             insertData(dataList);
 
-            JFreeChart chart = ChartGenerator.createChart(dataList);
-
-            JFreeChart pieChart = ChartGenerator.generatePieChart(dataList);
-
-            JFreeChart barChart = ChartGenerator.createBarChart(dataList);
 
             // Step 5: Generate PDF and embed charts
             PdfGenerator.generatePdf(dataList, "C:\\Users\\gurudas.tolani\\IdeaProjects\\Sol2\\src\\main\\resources\\Output.pdf");
